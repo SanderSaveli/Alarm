@@ -17,17 +17,14 @@ namespace ClockAndTime
         {
             _alarmClock.OnAlarmTriggered += ShowAlarmTriggerMessage;
         }
-
         private void OnDisable()
         {
             _alarmClock.OnAlarmTriggered -= ShowAlarmTriggerMessage;
         }
-
         public void ChoseTime()
         {
             _timeSetWindow.ChoseTime(ActivateAlarm);
         }
-
         public void ActivateAlarm(DateTime chosenTime)
         {
             if (_alarmClock.SetAlarm(chosenTime))
@@ -39,13 +36,11 @@ namespace ClockAndTime
                 _alarmStatusText.text = "Невозможно установить будильник на прошедшее время!";
             }
         }
-
         private void ShowAlarmTriggerMessage(DateTime time)
         {
             _alarmStatusText.text = "Будильник сработал!";
             SendAndroidNotification("Будильник", "Будильник сработал!");
         }
-
         private void SendAndroidNotification(string title, string text)
         {
 #if UNITY_ANDROID

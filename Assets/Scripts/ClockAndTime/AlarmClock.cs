@@ -17,7 +17,6 @@ namespace ClockAndTime
         {
             _clock = GlobalClock.instance;
         }
-
         private void CheckAlarmTrigger()
         {
             if (_isAlarmSet && _alarmTime.TimeOfDay <= _clock.currentTime.TimeOfDay)
@@ -26,7 +25,6 @@ namespace ClockAndTime
                 TriggerAlarm();
             }
         }
-
         private void Update()
         {
             if (_isAlarmSet && _alarmTime.TimeOfDay <= _clock.currentTime.TimeOfDay)
@@ -35,7 +33,6 @@ namespace ClockAndTime
                 TriggerAlarm();
             }
         }
-
         public bool SetAlarm(DateTime time)
         {
             DateTime currentTime = DateTime.Now;
@@ -51,7 +48,6 @@ namespace ClockAndTime
             InvokeRepeating(nameof(CheckAlarmTrigger), 1f, 36000f);
             return true;
         }
-
         private void TriggerAlarm()
         {
             OnAlarmTriggered?.Invoke(_alarmTime);

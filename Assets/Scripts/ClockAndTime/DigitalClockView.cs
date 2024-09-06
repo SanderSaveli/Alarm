@@ -14,7 +14,6 @@ namespace ClockAndTime
         {
             _clock = GlobalClock.instance;
         }
-
         private void OnEnable()
         {
             _clock.OnClockTimeChange += UpdateTiveView;

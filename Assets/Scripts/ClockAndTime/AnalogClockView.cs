@@ -21,7 +21,6 @@ namespace ClockAndTime
         {
             _clock = GlobalClock.instance;
         }
-
         private void OnEnable()
         {
             _clock.OnClockTimeChange += UpdateTiveView;
@@ -32,7 +31,6 @@ namespace ClockAndTime
         }
         public void UpdateTiveView(DateTime synchronizedTime)
         {
-
             float hourRotation = (synchronizedTime.Hour % 12) * _degreeRotationOfOneHour + synchronizedTime.Minute * 0.5f;
             float minuteRotation = synchronizedTime.Minute * _degreeRotationOfOneMinute + synchronizedTime.Second * 0.1f;
             float secondRotation = synchronizedTime.Second * _degreeRotationOfOneSecond;
