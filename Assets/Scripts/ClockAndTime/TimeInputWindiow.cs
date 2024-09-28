@@ -36,7 +36,7 @@ namespace ClockAndTime
             this._callback = null;
             _timeSetWindow.SetActive(false);
         }
-        public void SetAlarm()
+        public void SetTime()
         {
             int hour = _inthourInput.value;
             int minute = _intminuteInput.value;

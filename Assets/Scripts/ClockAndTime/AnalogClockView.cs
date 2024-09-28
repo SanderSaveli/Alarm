@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using DG.Tweening;
 
 namespace ClockAndTime
 {
@@ -34,10 +35,9 @@ namespace ClockAndTime
             float hourRotation = (synchronizedTime.Hour % 12) * _degreeRotationOfOneHour + synchronizedTime.Minute * 0.5f;
             float minuteRotation = synchronizedTime.Minute * _degreeRotationOfOneMinute + synchronizedTime.Second * 0.1f;
             float secondRotation = synchronizedTime.Second * _degreeRotationOfOneSecond;
-
-            _hourHand.localRotation = Quaternion.Euler(0, 0, -hourRotation);
-            _minuteHand.localRotation = Quaternion.Euler(0, 0, -minuteRotation);
-            _secondHand.localRotation = Quaternion.Euler(0, 0, -secondRotation);
+            _hourHand.DORotate(new Vector3(0, 0, -hourRotation), 1f); 
+            _minuteHand.DORotate(new Vector3(0, 0, -minuteRotation), 1f);
+            _secondHand.DORotate(new Vector3(0, 0, -secondRotation), 1f); 
         }
     }
 }

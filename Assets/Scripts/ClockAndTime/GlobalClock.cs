@@ -8,16 +8,17 @@ namespace ClockAndTime
     public class GlobalClock : Singletone<GlobalClock>
     {
         public Action<DateTime> OnClockTimeChange;
-        public DateTime currentTime { get => _currentTime; private set {
-            if(value != _currentTime)
+        public DateTime currentTime { get => _globalTime + _userOffsetTime; private set {
+            if(value != _globalTime)
                 {
-                    _currentTime = value;
+                    _globalTime = value;
                     OnClockTimeChange?.Invoke(currentTime);
                 }
             } 
         }
 
-        private DateTime _currentTime;
+        private DateTime _globalTime;
+        private TimeSpan _userOffsetTime = TimeSpan.Zero;
         private TimeSynchronization _timeSynchronization;
 
         private void Start()
@@ -29,11 +30,17 @@ namespace ClockAndTime
             InvokeRepeating(nameof(SynchronizeTime), 3600f, 3600f);
             StartCoroutine(UpdateTime());
         }
+
+        public void SetCurrentTime(DateTime time)
+        {
+            _userOffsetTime = TimeSpan.Zero;
+            _userOffsetTime = time - currentTime;
+        }
         private IEnumerator UpdateTime()
         {
             while (true)
             {
-                currentTime = _currentTime.AddSeconds(Time.deltaTime);
+                currentTime = _globalTime.AddSeconds(Time.deltaTime);
                 yield return null;
             }
         }

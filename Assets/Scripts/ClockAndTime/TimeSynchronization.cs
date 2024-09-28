@@ -30,7 +30,7 @@ public class TimeSynchronization
             catch (Exception e)
             {
                 retries++;
-                Debug.LogWarning("Не удалось получить время. Попытка: " + retries);
+                Debug.LogWarning("Не удалось получить время. Попытка: " + retries + "\b Причина: " + e);
                 await Task.Delay(1000);
             }
         }
@@ -42,23 +42,29 @@ public class TimeSynchronization
     {
         try
         {
-            using (HttpClient client = new HttpClient())
-            {
-                HttpResponseMessage response = await client.GetAsync(apiUrl);
-                if (response.IsSuccessStatusCode)
-                {
-                    string jsonResponse = await response.Content.ReadAsStringAsync();
-                    string dateTimeString = ExtractDateTimeFromJson(jsonResponse);
-                    if (!string.IsNullOrEmpty(dateTimeString))
-                    {
-                        return DateTime.Parse(dateTimeString);
-                    }
-                }
-            }
+            return await GetTimeFromService(apiUrl);
         }
         catch (Exception e)
         {
             Debug.LogWarning("Ошибка при обращении к сервису: " + apiUrl + " - " + e.Message);
+        }
+        return DateTime.MinValue;
+    }
+
+    private async Task<DateTime> GetTimeFromService(string apiUrl)
+    {
+        using (HttpClient client = new HttpClient())
+        {
+            HttpResponseMessage response = await client.GetAsync(apiUrl);
+            if (response.IsSuccessStatusCode)
+            {
+                string jsonResponse = await response.Content.ReadAsStringAsync();
+                string dateTimeString = ExtractDateTimeFromJson(jsonResponse);
+                if (!string.IsNullOrEmpty(dateTimeString))
+                {
+                    return DateTime.Parse(dateTimeString);
+                }
+            }
         }
         return DateTime.MinValue;
     }
